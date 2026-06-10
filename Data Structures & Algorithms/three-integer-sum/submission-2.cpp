@@ -1,55 +1,50 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <set>
+class Solution {
+public:
+//optimal solution 
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        // Take a vector of vector of int we needs to return 
+        vector<vector<int>> ans;
+        // sort the given vector 
+        sort(nums.begin(), nums.end());
 
-using namespace std;
-// Submission one was giving TLE because its Time coomplexity is )(n^3) and space complexity was number of triplets 
-// SO to reduced the complexity what is approach
-/* 1. in the third we need to thing how we can get the third element in O(1) time 
-2. thrird nuber will be equivalent to -(nums[i]+nums[j])
-3. to avoid the repetition of the third number and another two we need to put the element between i and j 
-into a set and if that third number is exist into set then only we can consider that as a part of triplet
-*/
-vector<vector<int>> threeSum(vector<int>& nums) {
+        // we will take 3 pointer 
+        /* i=0, j=i+1 and k=n-1 it will be initial position 
 
-    set<vector<int>> st;
-    for(int i=0;i<nums.size();++i)
-    {
-        // this hasmap should be empty with each i index so will be initialized here 
-        set<int> hashmap;
-        for(int j=i+1;j<nums.size();++j)
+        */
+        int n=nums.size();
+        for(int i=0;i<n;++i)
         {
-            // before moving to J put the element on index j into set
-            int third=-(nums[i]+nums[j]);
-            if(hashmap.find(third)!=hashmap.end())
+            // if i is not at 0th pos and nums[i]==nums[i+1] then we need to move further
+            if(i>0 && nums[i]==nums[i-1]) continue;
+            int j=i+1;
+            int k=n-1;
+            while(j<k)
             {
-                vector<int> temp={nums[i],nums[j],third};
-                sort(temp.begin(), temp.end());
-                st.insert(temp);
+                int sum=nums[i]+nums[j]+nums[k];
+                if(sum < 0)
+                {
+                    j++;
+                }
+                else if(sum > 0)
+                {
+                    k--;
+                
+                }
+                else
+                {
+                    vector<int> temp{nums[i], nums[j], nums[k]};
+                    ans.push_back(temp);
+                    j++;
+                    k--;
+                    while(j< k && nums[j]==nums[j-1]) j++;
+                    while(j<<k && nums[k]==nums[k+1]) k--;
+
+                }
             }
-            hashmap.insert(nums[j]);
         }
-    }
-    vector<vector<int>> ans{st.begin(),st.end()};
         return ans;
-}
-
-int main() {
-    vector<int> nums = {-1, 0, 1, 2, -1, -4};
-    vector<vector<int>> result = threeSum(nums);
-
-    cout << "Triplets that sum to zero:" << endl;
-    for (const auto& triplet : result) {
-        cout << "[";
-        for (size_t i = 0; i < triplet.size(); ++i) {
-            cout << triplet[i];
-            if (i < triplet.size() - 1) {
-                cout << ", ";
-            }
-        }
-        cout << "]" << endl;
     }
+};
 
-    return 0;
-}
+// Time Complexity. T(n)=O(nlogn) + O(n*n) --> O(nlog n ) due to sorting and O(n*n) it is due to while loop inside the for loop 
+// space complexity is O(no of unique triplet)
