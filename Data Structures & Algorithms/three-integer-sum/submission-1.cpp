@@ -1,51 +1,47 @@
-// Three integer sum means we have to find out a unique triplet whose sum is equivalent to 0 
-// first we will solve iot by Brut force to solve it by brute force we can take for loop and a s tripet should be unique so we can store this list in a set 
+class Solution {
+public:
+//optimal solution 
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        // Take a vector of vector of int we needs to return 
+        vector<vector<int>> ans;
+        // sort the given vector 
+        sort(nums.begin(), nums.end());
 
+        // we will take 3 pointer 
+        /* i=0, j=i+1 and k=n-1 it will be initial position 
 
-
-#include <iostream>
-#include <vector>
-#include <set>
-#include <algorithm>
-
-using namespace std;
-
-//1. Brute force 
-
-vector<vector<int>> threesum(vector<int> &sum)
-{
-    set<vector<int>> unique_triplets;
-    int n=sum.size();
-    for(int i=0;i<n;i++)
-    {
-        for(int j=i+1;j<n;++j)
+        */
+        int n=nums.size();
+        for(int i=0;i<n;++i)
         {
-            for(int k=j+1;k<n;++k)
+            // if i is not at 0th pos and nums[i]==nums[i+1] then we need to move further
+            if(i>0 && nums[i]==nums[i-1]) continue;
+            int j=i+1;
+            int k=n-1;
+            while(j<k)
             {
-                if(sum[i]+sum[j]+sum[k]==0)
+                int sum=nums[i]+nums[j]+nums[k];
+                if(sum < 0)
                 {
-                    vector<int> temp={sum[i],sum[j],sum[k]};
-                    unique_triplets.insert(temp);
+                    j++;
+                }
+                else if(sum > 0)
+                {
+                    k--;
+                
+                }
+                else
+                {
+                    vector<int> temp{nums[i], nums[j], nums[k]};
+                    ans.push_back(temp);
+                    j++;
+                    k--;
+                    while(j< k && nums[j]==nums[j-1]) j++;
+                    while(j<<k && nums[k]==nums[k+1]) k--;
+
                 }
             }
         }
+        return ans;
     }
-    vector<vector<int>> ans{unique_triplets.begin(), unique_triplets.end()};
-    return ans;
-
-}
-
-int main()
-{
-    vector<int> sum={-1,0,1,2,-1,-4};
-    vector<vector<int>> result=threesum(sum);
-    for(const auto &triplet:result)
-    {
-        for(int num:triplet)
-        {
-            cout<<num<<" ";
-        }
-        cout<<endl;
-    }
-    return 0;
-}
+};
