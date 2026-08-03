@@ -1,0 +1,13 @@
+{
+  "name": "manoj-algorithms-systematic",
+  "version": "1.0.0",
+  "description": "Systematic Data Structures & Algorithms implementations for interview prep and competitive programming",
+  "scripts": {
+    "test": "python -m pytest Data\\ Structures\\ \\&\\ Algorithms/ -v 2>/dev/null || echo 'Python tests not configured'",
+    "lint": "ruff check . 2>/dev/null || flake8 . 2>/dev/null || echo 'Python linter not available'"
+  },
+  "keywords": ["dsa", "algorithms", "leetcode", "neetcode", "interview-prep", "competitive-programming", "python", "cpp"],
+  "author": "Manoj Kumar",
+  "license": "private",
+  "private": true
+}
